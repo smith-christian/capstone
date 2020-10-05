@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 import os
 
+
 # database_path = 'postgres://smith@localhost:5432/capstone'
 database_path = os.environ['DATABASE_URL']
 

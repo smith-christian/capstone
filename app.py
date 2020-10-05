@@ -1,10 +1,13 @@
 import os
 from flask import Flask, request, abort, jsonify
+from flask_sqlalchemy import SQLAlchemy
 from models import setup_db
 from flask_cors import CORS
 
-def create_app(test_config=None):
 
+
+def create_app(test_config=None):
+    # create and configure the app
     app = Flask(__name__)
     setup_db(app)
     CORS(app)
@@ -24,5 +27,8 @@ def create_app(test_config=None):
 
 app = create_app()
 
+'''if __name__ == '__main__':
+    app.run()'''
+
 if __name__ == '__main__':
-    app.run()
+    APP.run(host='0.0.0.0', port=8080, debug=True)
