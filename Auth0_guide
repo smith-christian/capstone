@@ -1,0 +1,96 @@
+Auth0 for local use
+
+Create an App & API
+1. Create a new account on Auth0. (Ignore this step if already done)
+
+2. Select Application-> Create Application and choose Regular Web Application.
+
+3. Goto settings of newly created web application and set callback Url as http://localhost:8080
+
+4. Select APIs -> Create API and then fill all the information about your API.
+
+Create Roles & Permission
+1. Select your created API goto settings and enable RBAC and Add Permissions in the acces token.
+
+2. Goto Permissions tab and add permissions as given below:
+
+'get:movies', 'get:actors','post:movies', 'post:actors','post:actor_to_movie','patch:actor',
+
+'patch:movie','delete:actor','delete:movie','delete:actor_from_movie'
+
+3. Select user& roles from side menu and then select create roles
+
+4. Create role casting_assistant and add permissions 'get:actors' and 'get-movies'.
+
+5. Create role castins_director and add permissions 'get:movies', 'get:actors','post:actors',
+
+'post:actor_to_movie','patch:actor', 'patch:movie','delete:actor','delete:actor_from_movie'
+
+6. Create role executive_director and add all permissions.
+
+Generating Authentication tokens
+1. Select users in side menu and create a new user.
+
+2. Assign any one role to the user. (i.e casting_assistant, casting_director or executive_director)
+
+3. Goto api.py and uncomment the generate_auth_url function then goto config.py-> auth_config and make changes to the following:
+
+```python
+
+'AUTH0_DOMAIN':'some_value_1' # your auth0 domain (Goto applications->settings->Domain)
+
+'ALGORITHMS':'some_value_2' # hashing algorithm
+
+'API_AUDIENCE':'some_value_3' # your api audience (Goto API ->settings->identifier)
+
+'AUTH0_CLIENT_ID':'some_value_4' # your client id (Got applications->settings->Client id)
+
+'AUTH0_CALLBACK_URL':'http://0.0.0.0:8080' # callback url (Got applications->settings->Allowed Callback URLs)
+
+```
+
+4. From the terminal make a get request to /authorization
+
+```bash
+
+curl http://localhost:8080/authorization
+
+```
+
+5. Goto the returned url you will see a login page and then enter login information of the user which you created before.
+
+6. You will get a site not reachable error and a jwt token inside the url.
+
+7. Copy the generated jwt token of the assigned role and paste it in config.py under Authtoken.
+
+8. Similarly create tokens for all the roles and paste it in config.py.
+
+```js
+
+{
+
+'casting_assistant': 'Bearer YOUR_CASTING_ASSISTANT_TOKEN',
+
+'casting_director':'Bearer YOUR_CASTING_DIRECTOR_TOKEN',
+
+'executive_director':'Bearer YOUR_EXECUTIVE_DIRECTOR_TOKEN'
+
+}
+
+```
+
+#### Example tokens
+
+```js
+
+Authtoken = {
+
+"casting_assistant":'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlcyWXVVcG9OUldVdENyRGFBZUhvYSJ9.eyJpc3MiOiJodHRwczovL2Rldi1kNTdrNmQ5dC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYxMzBlMjM5NjViOGMwMDE5ZmU1NDg3IiwiYXVkIjoiQ2FzdGluZyBBZ2VuY3kiLCJpYXQiOjE1OTUwODQ0MzMsImV4cCI6MTU5NTE3MDgzMCwiYXpwIjoidUZXSEc0Ynp6bVk0YzJIajZER0x0ZzlMQzcxNVVmOHkiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIl19.Njq7L9xGifytzNnyKfImgvTEuyYyQ73ucgpbKMS27pIHXAjnzTWvG_FwZqzXSY9UmqgXuF7kisyJNOCr2i_lne7L8LSLlDRJN7kE88LVhLsyb8qfm4EK33SAnTZgeWbaQuqB9uOlCLq71a-HZJBCO4Gyi45f4vDIaKPKshi-4o8dbC37QGAkGWMtBSB-QDZeJgDzfvvKl3t3P35ZXQ0di1cGh9Pw5TMSc-Qokiuf6oErYeOrdqeRufC_-uM9Jtu1hxUXVpsjIfIT22-BxgT4SsYnDKoN9EXz3pVwsVbS9xop18c4WRWS4KyFeWjnjULBkYcTIrc3oGVpprezTnXHvA',
+
+"casting_director":'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlcyWXVVcG9OUldVdENyRGFBZUhvYSJ9.eyJpc3MiOiJodHRwczovL2Rldi1kNTdrNmQ5dC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYxMzBlMjM5NjViOGMwMDE5ZmU1NDg3IiwiYXVkIjoiQ2FzdGluZyBBZ2VuY3kiLCJpYXQiOjE1OTUwODQ1MzQsImV4cCI6MTU5NTE3MDkzMSwiYXpwIjoidUZXSEc0Ynp6bVk0YzJIajZER0x0ZzlMQzcxNVVmOHkiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvciIsImRlbGV0ZTphY3Rvcl9mcm9tX21vdmllIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvciIsInBhdGNoOm1vdmllIiwicG9zdDphY3RvcnMiLCJwb3N0OmFjdG9yX3RvX21vdmllIl19.ZFCcYg1g1TQcq0FqLCj6DXtoyM9q_TaEFjL76i2BVcJnHnxYNu7LoDZMLMlAjozNfNvzRsAQpFmDY5FulrkdpAnbzvRbRy0sGcveo9LSujzzkmvlzBV4qq4Z9L4dL23ESMkPadtUBIw4lkLsVS94Ypjv4I__sz7pq-XeIoH8KbBPH1LKOGhb7aFSvTyWXfhdBrcqQNtKCJ8mJDHiVbzDmNadzRmZqpVygSEXVizQHtX_o2DcqPHg_zujttqOAQZF92uLgmbuVcomxM6MPnwcVrOeScuy98fe3YMyreab90HjVQKJX7uxKyDUhra2XP2js95r4sZQONv7ysRjIoK1HA',
+
+"executive_director":'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlcyWXVVcG9OUldVdENyRGFBZUhvYSJ9.eyJpc3MiOiJodHRwczovL2Rldi1kNTdrNmQ5dC51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWYxMzBlMjM5NjViOGMwMDE5ZmU1NDg3IiwiYXVkIjoiQ2FzdGluZyBBZ2VuY3kiLCJpYXQiOjE1OTUwODQ2MTYsImV4cCI6MTU5NTE3MTAxMywiYXpwIjoidUZXSEc0Ynp6bVk0YzJIajZER0x0ZzlMQzcxNVVmOHkiLCJzY29wZSI6IiIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvciIsImRlbGV0ZTphY3Rvcl9mcm9tX21vdmllIiwiZGVsZXRlOm1vdmllIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvciIsInBhdGNoOm1vdmllIiwicG9zdDphY3RvcnMiLCJwb3N0OmFjdG9yX3RvX21vdmllIiwicG9zdDptb3ZpZXMiXX0.hwpP2L6aYutPEfZt-ElU6k6bcLKeQen8qKq4XsLZklqs2nuyu9wzvS0nEe_nhMG_pkv9zzFI--Cz2TALe7WnOcqeSN2Lveiu4-kh2P2nzaMibapUJyUgDdMUVQWJPxmUD0tpF5gxCZd4fZ9A4LGyApo51V_yOiaBh8lGmdbT07GikvimSTIfYFat40ArYklpytjLaaR98-VxmZI5j8PcK2PZJtK-yejh7KTU-UkIeXoJzyBBsabuxylDdoymY5ir8jQgUPGqphsFs-U5Aw9idWW1d06jTDXPiOhLcRRP_fW_PaW5wonWOtvHAzFytsOKPa_IpMuYl2QEPliv2J_36w'
+
+}
+
+```

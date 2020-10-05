@@ -4,8 +4,8 @@ import json
 import os
 
 
-# database_path = 'postgres://smith@localhost:5432/capstone'
-database_path = os.environ['DATABASE_URL']
+database_path = 'postgres://smith@localhost:5432/capstone'
+#database_path = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
 
@@ -18,6 +18,10 @@ def setup_db(app, database_path=database_path):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
+
+
+def db_drop_and_create_all():
+    db.drop_all()
     db.create_all()
 
 
@@ -25,19 +29,62 @@ def setup_db(app, database_path=database_path):
 Person
 Have title and release year
 '''
-class Person(db.Model):  
-  __tablename__ = 'People'
+class Movie(db.Model):
 
-  id = Column(Integer, primary_key=True)
-  name = Column(String)
-  catchphrase = Column(String)
+  __tablename__ = 'movies'
+  id = db.Column(db.Integer, primary_key=True)
+  title = db.Column(db.String)
+  release_date = db.Column(db.DateTime)
 
-  def __init__(self, name, catchphrase=""):
+  def __init__(self, title, release_date):
+    self.title = title
+    self.release_date = release_date
+  
+  def insert(self):
+    db.session.add(self)
+    db.session.commit()
+
+  def update(self):
+    db.session.commit()
+
+  def delete(self):
+    db.session.delete(self)
+    db.session.commit()
+
+  def format(self):
+    return {
+      'id': self.id,
+      'title': self.title,
+      'release_date': self.release_date,
+    }
+
+class Actor(db.Model):
+
+  __tablename__ = 'actor'
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String)
+  age = db.Column(db.Integer)
+  gender = db.Column(db.String(120))
+
+  def __init__(self, name, age):
     self.name = name
-    self.catchphrase = catchphrase
+    self.age = age
+
+  def insert(self):
+    db.session.add(self)
+    db.session.commit()
+
+  def update(self):
+    db.session.commit()
+
+  def delete(self):
+    db.session.delete(self)
+    db.session.commit()
 
   def format(self):
     return {
       'id': self.id,
       'name': self.name,
-      'catchphrase': self.catchphrase}
+      'age': self.age,
+      'gender': self.gender,
+      }
