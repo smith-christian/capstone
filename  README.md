@@ -57,7 +57,7 @@ If you need alternate instructions for the download they can be found here. You 
    Push it up! `git push heroku master`
 
  * Run migrations
-   Once your app is deployed, run migrations by running: heroku run `python3 manage.py db upgrade --app name_of_your_application`
+   Once your app is deployed, run migrations by running: `heroku run python3 manage.py db upgrade --app name_of_your_application`
    
 
 ********************* CLI *************************

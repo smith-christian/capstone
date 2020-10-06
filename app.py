@@ -24,18 +24,19 @@ def create_app(test_config=None):
             'condition': 'app is running under smith!'
         }), 200
 
-    @app.route('/actors', methods=['GET'])
-    def get_actors():
-        
-        data = Actor.query.order_by(Actor.name).all()
+    @app.route('/actors')
+    @requires_auth('get:actors')
+    def get_actors(jwt):
 
-        return_data = [item.format() for item in data]
-
-        return jsonify({
-            'success': True,
-            'actors': return_data
-        }), 200
-
+        try:    
+            all_actors = Actor.query.order_by(Actor.name).all()
+            return_actors = [actors.format() for actors in all_actors]
+            return jsonify({
+                'success': True,
+                'actors': return_actors
+            }), 200
+        except:
+            abort(500)
     return app
 
 app = create_app()
