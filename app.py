@@ -26,7 +26,7 @@ def create_app(test_config=None):
 
     @app.route('/actors')
     @requires_auth('get:actors')
-    def get_actors(payload):
+    def get_actors(jwt):
 
         try:    
             all_actors = Actor.query.order_by(Actor.name).all()
