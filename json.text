@@ -1,0 +1,14 @@
+https://capstone-smith.herokuapp.com/actors
+
+{
+    "actors": [
+        {
+            "age": 25,
+            "gender": "male",
+            "id": 1,
+            "name": "sam smith"
+        }
+    ],
+    "success": true
+}
+
