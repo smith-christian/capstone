@@ -36,7 +36,23 @@ def create_app(test_config=None):
                 'actors': return_actors
             }), 200
         except:
-            abort(404)
+            abort(500)
+    
+    @app.route('/movies')
+    @requires_auth('get:movies')
+    def get_actors(payload):
+
+        try:    
+            all_movies = Movie.query.order_by(Movie.name).all()
+            return_movie = [movies.format() for movies in all_movies]
+            return jsonify({
+                'success': True,
+                'actors': return_movie
+            }), 200
+        except:
+            abort(500)
+
+    
     return app
 
 app = create_app()
