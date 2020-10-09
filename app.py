@@ -43,7 +43,7 @@ def create_app(test_config=None):
     def get_movies(payload):
 
         try:    
-            all_movies = Movie.query.order_by(Movie.name).all()
+            all_movies = Movie.query.order_by(Movie.title).all()
             return_movie = [movies.format() for movies in all_movies]
             return jsonify({
                 'success': True,
