@@ -40,14 +40,14 @@ def create_app(test_config=None):
     
     @app.route('/movies')
     @requires_auth('get:movies')
-    def get_actors(payload):
+    def get_movies(payload):
 
         try:    
             all_movies = Movie.query.order_by(Movie.name).all()
             return_movie = [movies.format() for movies in all_movies]
             return jsonify({
                 'success': True,
-                'actors': return_movie
+                'movies': return_movie
             }), 200
         except:
             abort(500)
