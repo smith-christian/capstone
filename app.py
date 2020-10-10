@@ -54,7 +54,7 @@ def create_app(test_config=None):
     
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actors')
-    def post_actor():
+    def post_actor(payload):
         
         body = request.get_json()
         name = body.get('name', None)
@@ -67,7 +67,7 @@ def create_app(test_config=None):
 
             return jsonify({
                 'success': True,
-                'actor': actor.id
+                'actor': actor.format()
             })
         except:
             abort(422)
@@ -81,6 +81,7 @@ def create_app(test_config=None):
             abort(404)
         try:
             actor.delete()
+            
             return jsonify({
                 'success': True,
                 'actor_id_delete': drink.id
