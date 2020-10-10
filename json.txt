@@ -1,14 +1,114 @@
-https://capstone-smith.herokuapp.com/actors
+**************************   GET  **************************
 
+https://capstone-smith.herokuapp.com/actors
 {
     "actors": [
+        {
+            "age": 19,
+            "gender": "female",
+            "id": 3,
+            "name": "Nency"
+        },
         {
             "age": 25,
             "gender": "male",
             "id": 1,
             "name": "sam smith"
+        },
+        {
+            "age": 35,
+            "gender": "male",
+            "id": 2,
+            "name": "smith john"
+        },
+        {
+            "age": 30,
+            "gender": "female",
+            "id": 4,
+            "name": "Zora"
         }
     ],
     "success": true
 }
 
+https://capstone-smith.herokuapp.com/movies
+{
+    "movies": [
+        {
+            "id": 1,
+            "release_date": "Wed, 04 Sep 2019 00:00:00 GMT",
+            "title": "Avengers"
+        },
+        {
+            "id": 3,
+            "release_date": "Fri, 28 Sep 2012 00:00:00 GMT",
+            "title": "Looper"
+        },
+        {
+            "id": 4,
+            "release_date": "Wed, 20 Oct 1999 00:00:00 GMT",
+            "title": "One piece"
+        },
+        {
+            "id": 2,
+            "release_date": "Sat, 08 Mar 2014 00:00:00 GMT",
+            "title": "predestination"
+        }
+    ],
+    "success": true
+}
+
+
+
+**************************   DELETE  **************************
+
+https://capstone-smith.herokuapp.com/actors/1
+
+{
+    "actors": [
+        {
+            "age": 19,
+            "gender": "female",
+            "id": 3,
+            "name": "Nency"
+        },
+        {
+            "age": 35,
+            "gender": "male",
+            "id": 2,
+            "name": "smith john"
+        },
+        {
+            "age": 30,
+            "gender": "female",
+            "id": 4,
+            "name": "Zora"
+        }
+    ],
+    "success": true
+}
+
+
+**************************   POST  **************************
+
+https://capstone-smith.herokuapp.com/actors
+
+{
+    "actor": {
+        "age": 41,
+        "gender": "male",
+        "id": 5,
+        "name": "Jerry"
+    },
+    "success": true
+}
+
+**************************   PATCH  **************************
+
+https://capstone-smith.herokuapp.com/actors/5
+{
+    "age": 35,
+    "gender": "male",
+    "id": 5,
+    "name": "Albetino"
+}
