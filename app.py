@@ -51,6 +51,43 @@ def create_app(test_config=None):
             }), 200
         except:
             abort(500)
+    
+    @app.route('/actors', methods=['POST'])
+    @requires_auth('post:actors')
+    def post_actor():
+        
+        body = request.get_json()
+        name = body.get('name', None)
+        age = body.get('age', None)
+        gender = body.get('gender', None)
+        
+        try:
+            actor = Actor(name = name, age = age, gender = gender)
+            actor.insert()
+
+            return jsonify({
+                'success': True,
+                'actor': actor.id
+            })
+        except:
+            abort(422)
+
+    @app.route('/actors/<int:actor_id>', methods=['DELETE'])
+    @requires_auth("delete:actor")
+    def delete_actor(payload, actor_id):
+
+        actor = Actor.query.get(actor_id)
+        if actor is None:
+            abort(404)
+        try:
+            actor.delete()
+            return jsonify({
+                'success': True,
+                'actor_id_delete': drink.id
+            })
+            abort(200)
+        except:
+            abort(500)
 
     
     return app

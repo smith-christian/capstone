@@ -4,8 +4,8 @@ import json
 import os
 
 
-#database_path = 'postgres://smith@localhost:5432/capstone'
-database_path = os.environ['DATABASE_URL']
+database_path = 'postgres://smith@localhost:5432/capstone'
+#database_path = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
 
@@ -66,9 +66,10 @@ class Actor(db.Model):
   age = db.Column(db.Integer)
   gender = db.Column(db.String(120))
 
-  def __init__(self, name, age):
+  def __init__(self, name, age, gender):
     self.name = name
     self.age = age
+    self.gender = gender
 
   def insert(self):
     db.session.add(self)
