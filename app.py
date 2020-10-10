@@ -90,6 +90,36 @@ def create_app(test_config=None):
         except:
             abort(500)
 
+    @app.route('/actors/<int:actor_id>', methods=['PATCH'])
+    @requires_auth('patch:actor')
+    def patch_actor(payload, actor_id):
+        
+        body = request.get_json()
+        name = body.get('name', None)
+        age = body.get('age', None)
+        gender = body.get('gender', None)
+
+        actor = Actor.query.get(actor_id)
+
+        if actor is None:
+            abort(404)        
+        if name:
+            actor.name = name
+        if name:
+            actor.age = age
+        if name:
+            actor.gender = gender
+        try:
+            actor.update()
+
+            return jsonify({
+                'success': True,
+                'actor': actor.format()
+            })
+            abort(200)
+        except:
+            abort(500)
+
     
     return app
 
