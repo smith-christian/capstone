@@ -122,7 +122,7 @@ def create_app(test_config=None):
 
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movie')
-    def patch_actor(payload, movie_id):
+    def patch_movie(payload, movie_id):
         
         body = request.get_json()
         title = body.get('title', None)
