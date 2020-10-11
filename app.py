@@ -69,6 +69,7 @@ def create_app(test_config=None):
                 'success': True,
                 'actor': actor.format()
             })
+            abort(200)
         except:
             abort(422)
 
@@ -84,7 +85,7 @@ def create_app(test_config=None):
             
             return jsonify({
                 'success': True,
-                'actor_id_delete': drink.id
+                'actor_id_delete': actor.id
             })
             abort(200)
         except:
@@ -147,6 +148,46 @@ def create_app(test_config=None):
         except:
             abort(500)
     
+    @app.route('/movies/<int:movie_id>', methods=['DELETE'])
+    @request('delete:movie')
+    def delete_movie(payload, movie_id):
+        
+        movie = Movie.query.get(movie_id)
+
+        if movie is None:
+            abort (404)
+        try:
+            movie.delete()
+            
+            return jsonify({
+                'success': True,
+                'movie_id_delete': movie.id
+            })
+            abort(200)
+        except:
+            abort(500)
+
+
+    @app.route('/movies', methods=['POST'])
+    @requires_auth('post:movies')
+    def post_actor(payload):
+        
+        body = request.get_json()
+        title = body.get('title', None)
+        release_date = body.get('release_date', None)
+        
+        try:
+            movie = Movie(title = title, release_date = release_date)
+            movie.insert()
+
+            return jsonify({
+                'success': True,
+                'movie': movie.format()
+            })
+            abort(200)
+        except:
+            abort(422)
+            
     return app
 
 app = create_app()

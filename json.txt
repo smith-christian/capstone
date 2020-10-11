@@ -112,3 +112,11 @@ https://capstone-smith.herokuapp.com/actors/5
     "id": 5,
     "name": "Albetino"
 }
+
+https://capstone-smith.herokuapp.com/movies/2
+{
+    "id": 2,
+    "release_date": "Sun, 10 Mar 1998 00:00:00 GMT",
+    "title": "JOJO's Adventure"
+}
+        
