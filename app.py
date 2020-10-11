@@ -188,6 +188,53 @@ def create_app(test_config=None):
         except:
             abort(422)
 
+    @app.errorhandler(400)
+    def bad_request(error):
+    return jsonify({
+        "success": False,
+        "error": 400,
+        "message": "bad request"
+        }), 400
+
+    @app.errorhandler(500)
+    def server_error(error):
+        return jsonify({
+        "success": False,
+        "error": 500,
+        "message": "internal server error"
+        }), 500
+
+    @app.errorhandler(422)
+    def unprocessable(error):
+        return jsonify({
+            "success": False, 
+            "error": 422,
+            "message": "unprocessable"
+        }), 422
+
+    @app.errorhandler(401)
+    def not_authorized(error):
+    return jsonify({
+        "success": False,
+        "error": 401,
+        "message": 'unathorized'
+        }), 401
+
+    @app.errorhandler(404)
+    def unprocessable(error):
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "resource not found"
+        }), 404
+
+    
+    @app.errorhandler(AuthError)
+    def handle_auth_error(ex):
+        response = jsonify(ex.error)
+        response.status_code = ex.status_code
+        return response
+
     return app
 
 app = create_app()

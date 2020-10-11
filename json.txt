@@ -88,6 +88,29 @@ https://capstone-smith.herokuapp.com/actors/1
     "success": true
 }
 
+https://capstone-smith.herokuapp.com/movies/1
+
+{
+    "movies": [
+        {
+            "id": 2,
+            "release_date": "Tue, 10 Mar 1998 00:00:00 GMT",
+            "title": "JOJO's Adventure"
+        },
+        {
+            "id": 3,
+            "release_date": "Fri, 28 Sep 2012 00:00:00 GMT",
+            "title": "Looper"
+        },
+        {
+            "id": 4,
+            "release_date": "Wed, 20 Oct 1999 00:00:00 GMT",
+            "title": "One piece"
+        }
+    ],
+    "success": true
+}
+
 
 **************************   POST  **************************
 
@@ -99,6 +122,17 @@ https://capstone-smith.herokuapp.com/actors
         "gender": "male",
         "id": 5,
         "name": "Jerry"
+    },
+    "success": true
+}
+
+https://capstone-smith.herokuapp.com/movies
+
+{
+    "movie": {
+        "id": 1,
+        "release_date": "Fri, 10 Jan 2020 00:00:00 GMT",
+        "title": "Re:Zero"
     },
     "success": true
 }

@@ -58,20 +58,22 @@ If you need alternate instructions for the download they can be found here. You 
 
  * Run migrations
    Once your app is deployed, run migrations by running: `heroku run python3 manage.py db upgrade --app name_of_your_application`
-   
-export FLASK_APP=app.py   
-flask run --reload 
+
+# to run app locally 
+  `export FLASK_APP=app.py` 
+  `flask run --reload`
 
 ********************* Heroku CLI *************************
 
-To check db on local machine teminal run => `heroku pg:psql`
-   
+To check db on local machine teminal run => `heroku pg:psql`   
 
 
 ##################### side activity ############################
 
+curl example link: https://reqbin.com/req/c-dwjszac0/curl-post-json-example
+
+# GET movies
 curl --location --request GET 'https://capstone-smith.herokuapp.com/movies' \     
 --header 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9jOWg1clVFSGVYVmVBanRLcmRPQiJ9.eyJpc3MiOiJodHRwczovL3NjLWZzbmQudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDVmN2I3ODg5YjQ5OGUyMDA2Yjk0NTczYSIsImF1ZCI6ImNhcHN0b25lIiwiaWF0IjoxNjAyMzQ2OTc0LCJleHAiOjE2MDIzNTQxNzQsImF6cCI6Im5RSW5ReFR0RHJHcFpQUTV4YVloekZvZ1JrSlpTYldmIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6YWN0b3IiLCJkZWxldGU6YWN0b3JfZnJvbV9tb3ZpZSIsImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIiwicGF0Y2g6YWN0b3IiLCJwYXRjaDptb3ZpZSIsInBvc3Q6YWN0b3JzIiwicG9zdDphY3Rvcl90b19tb3ZpZSJdfQ.Oh9OQXWw2EP_IO0uZLvjMDGgG1GdH9ao8Mb5fhK8p_oNQjVQwHKMexeFXfkUtb3GO2W88_utUcPbmwov7ZAGwgW7GU9vEj3UQSMIY96YlLtwcRSJ9k9B474fFKCB3Rj41w9vhnaT6MPeFGJvnfxNryeQojR_r9PMn5FT3d-kY3uTwHzR3IXLEGbpkWE5km2W33PpCWHC1jIezsgvIOAI-u4-kLSvQdCYcXvJdNvDFwfaoGbzJhemgzEUzGs7woMciOecn4oPwvhIGrGjli8owgb7DwtaJ7Y98C1NMnDwQ8NJwfmrL6mVQ64DFztXqPmqC_FxjGh5F6ln7g-HzYldgg'
-
 
 {"movies":[{"id":1,"release_date":"Wed, 04 Sep 2019 00:00:00 GMT","title":"Avengers"},{"id":3,"release_date":"Fri, 28 Sep 2012 00:00:00 GMT","title":"Looper"},{"id":4,"release_date":"Wed, 20 Oct 1999 00:00:00 GMT","title":"One piece"},{"id":2,"release_date":"Sat, 08 Mar 2014 00:00:00 GMT","title":"predestination"}],"success":true}
