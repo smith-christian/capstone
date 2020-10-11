@@ -149,7 +149,7 @@ def create_app(test_config=None):
             abort(500)
     
     @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-    @request('delete:movie')
+    @request_auth('delete:movie')
     def delete_movie(payload, movie_id):
         
         movie = Movie.query.get(movie_id)
