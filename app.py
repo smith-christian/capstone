@@ -120,7 +120,7 @@ def create_app(test_config=None):
         except:
             abort(500)
 
-    @app.route('/movies/<int:movie_id>', methods=['PATCH'])
+'''    @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movie')
     def patch_actor(payload, movie_id):
         
@@ -145,7 +145,7 @@ def create_app(test_config=None):
             })
             abort(200)
         except:
-            abort(500)
+            abort(500)'''
 
     
     return app
