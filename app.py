@@ -120,33 +120,6 @@ def create_app(test_config=None):
         except:
             abort(500)
 
-'''    @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-    @requires_auth('patch:movie')
-    def patch_actor(payload, movie_id):
-        
-        body = request.get_json()
-        title = body.get('title', None)
-        release_date = body.get('release_date', None)
-
-        movie = Movie.query.get(movie_id)
-
-        if movie is None:
-            abort(404)        
-        if title:
-            movie.title = title
-        if release_date:
-            movie.release_date = release_date
-        try:
-            movie.update()
-
-            return jsonify({
-                'success': True,
-                'movie': movie.format()
-            })
-            abort(200)
-        except:
-            abort(500)'''
-
     
     return app
 
