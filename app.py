@@ -120,17 +120,17 @@ def create_app(test_config=None):
         except:
             abort(500)
 
-    @app.route('/movies/<int:actor_id>', methods=['PATCH'])
+    @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movie')
-    def patch_actor(payload, actor_id):
+    def patch_actor(payload, movie_id):
         
         body = request.get_json()
         title = body.get('title', None)
         release_date = body.get('release_date', None)
 
-        movie = Movie.query.get(actor_id)
+        movie = Movie.query.get(movie_id)
 
-        if actor is None:
+        if movie is None:
             abort(404)        
         if title:
             movie.title = title
