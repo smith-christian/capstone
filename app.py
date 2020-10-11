@@ -190,19 +190,19 @@ def create_app(test_config=None):
 
     @app.errorhandler(400)
     def bad_request(error):
-    return jsonify({
-        "success": False,
-        "error": 400,
-        "message": "bad request"
-        }), 400
+        return jsonify({
+            "success": False,
+            "error": 400,
+            "message": "bad request"
+            }), 400
 
     @app.errorhandler(500)
     def server_error(error):
-        return jsonify({
-        "success": False,
-        "error": 500,
-        "message": "internal server error"
-        }), 500
+            return jsonify({
+            "success": False,
+            "error": 500,
+            "message": "internal server error"
+            }), 500
 
     @app.errorhandler(422)
     def unprocessable(error):
@@ -214,14 +214,14 @@ def create_app(test_config=None):
 
     @app.errorhandler(401)
     def not_authorized(error):
-    return jsonify({
-        "success": False,
-        "error": 401,
-        "message": 'unathorized'
-        }), 401
+        return jsonify({
+            "success": False,
+            "error": 401,
+            "message": 'unathorized'
+            }), 401
 
     @app.errorhandler(404)
-    def unprocessable(error):
+    def not_found(error):
         return jsonify({
             "success": False,
             "error": 404,
