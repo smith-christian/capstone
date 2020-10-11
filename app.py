@@ -170,7 +170,7 @@ def create_app(test_config=None):
 
     @app.route('/movies', methods=['POST'])
     @requires_auth('post:movies')
-    def post_actor(payload):
+    def post_movie(payload):
         
         body = request.get_json()
         title = body.get('title', None)
@@ -187,7 +187,7 @@ def create_app(test_config=None):
             abort(200)
         except:
             abort(422)
-            
+
     return app
 
 app = create_app()
