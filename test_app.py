@@ -6,10 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 from app import create_app
 from models import setup_db, Movie, Actor
 
-'''ASSISTANT_TOKEN = os.environ.get('ASSISTANT_TOKEN') 
-DIRECTOR_TOKEN = os.environ.get('DIRECTOR_TOKEN')
-PRODUCER_TOKEN = os.environ.get('PRODUCER_TOKEN')'''
-
 
 class CapstoneTestCase(unittest.TestCase):
     """This class represents the capstone test case"""
@@ -23,7 +19,12 @@ class CapstoneTestCase(unittest.TestCase):
         #self.database_path = os.environ['DATABASE_URL']
         setup_db(self.app, self.database_path)
 
-'''
+
+        ASSISTANT_TOKEN = os.environ.get('ASSISTANT_TOKEN') 
+        DIRECTOR_TOKEN = os.environ.get('DIRECTOR_TOKEN')
+        PRODUCER_TOKEN = os.environ.get('PRODUCER_TOKEN')
+
+
         self.assistant_header = {
             "Authorization": "Bearer {}".format(ASSISTANT_TOKEN)}
         
@@ -31,7 +32,14 @@ class CapstoneTestCase(unittest.TestCase):
             "Authorization": "Bearer {}".format(DIRECTOR_TOKEN)}
 
         self.producer_header = {
-            "Authorization": "Bearer {}".format(PRODUCER_TOKEN)}'''
+            "Authorization": "Bearer {}".format(PRODUCER_TOKEN)}
+            
+
+        print('assistant', self.assistant_header)
+        print('director', self.director_header)
+        print('producer', self.producer_header)
+
+
 
         self.actor = {
             "name": "Will Smith",
@@ -74,11 +82,11 @@ class CapstoneTestCase(unittest.TestCase):
 
 
 
-'''        with self.app.app_context():
+        with self.app.app_context():
             self.db = SQLAlchemy()
             self.db.init_app(self.app)
             # create all tables
-            self.db.create_all()'''
+            self.db.create_all()
 
 
     def tearDown(self):
@@ -137,6 +145,8 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 401)
         self.assertEqual(data['success'], False)
         self.assertEqual(data['message'], 'unathorized')'''
+
+
 
 
 
