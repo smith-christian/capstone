@@ -6,7 +6,7 @@ After you create your account, install Heroku with Homebrew by running:
 
 `brew tap heroku/brew && brew install heroku`
 
-If you need alternate instructions for the download they can be found here. You can verify the download by typing which heroku.
+If you need alternate instructions for the download they can be found here. You can verify the download by typing 'which heroku'.
 
 # Deployment Configuration:
  * Installing Dependencies
@@ -77,3 +77,44 @@ curl --location --request GET 'https://capstone-smith.herokuapp.com/movies' \
 --header 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9jOWg1clVFSGVYVmVBanRLcmRPQiJ9.eyJpc3MiOiJodHRwczovL3NjLWZzbmQudXMuYXV0aDAuY29tLyIsInN1YiI6ImF1dGgwfDVmN2I3ODg5YjQ5OGUyMDA2Yjk0NTczYSIsImF1ZCI6ImNhcHN0b25lIiwiaWF0IjoxNjAyMzQ2OTc0LCJleHAiOjE2MDIzNTQxNzQsImF6cCI6Im5RSW5ReFR0RHJHcFpQUTV4YVloekZvZ1JrSlpTYldmIiwic2NvcGUiOiIiLCJwZXJtaXNzaW9ucyI6WyJkZWxldGU6YWN0b3IiLCJkZWxldGU6YWN0b3JfZnJvbV9tb3ZpZSIsImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIiwicGF0Y2g6YWN0b3IiLCJwYXRjaDptb3ZpZSIsInBvc3Q6YWN0b3JzIiwicG9zdDphY3Rvcl90b19tb3ZpZSJdfQ.Oh9OQXWw2EP_IO0uZLvjMDGgG1GdH9ao8Mb5fhK8p_oNQjVQwHKMexeFXfkUtb3GO2W88_utUcPbmwov7ZAGwgW7GU9vEj3UQSMIY96YlLtwcRSJ9k9B474fFKCB3Rj41w9vhnaT6MPeFGJvnfxNryeQojR_r9PMn5FT3d-kY3uTwHzR3IXLEGbpkWE5km2W33PpCWHC1jIezsgvIOAI-u4-kLSvQdCYcXvJdNvDFwfaoGbzJhemgzEUzGs7woMciOecn4oPwvhIGrGjli8owgb7DwtaJ7Y98C1NMnDwQ8NJwfmrL6mVQ64DFztXqPmqC_FxjGh5F6ln7g-HzYldgg'
 
 {"movies":[{"id":1,"release_date":"Wed, 04 Sep 2019 00:00:00 GMT","title":"Avengers"},{"id":3,"release_date":"Fri, 28 Sep 2012 00:00:00 GMT","title":"Looper"},{"id":4,"release_date":"Wed, 20 Oct 1999 00:00:00 GMT","title":"One piece"},{"id":2,"release_date":"Sat, 08 Mar 2014 00:00:00 GMT","title":"predestination"}],"success":true}
+
+
+test the 
+`source setup.sh && python3 test_app.py`
+or
+`bash setup.sh && python3 test_app.py`
+
+requirements.txt
+
+alembic==1.4.2
+astroid==2.2.5
+certifi==2020.4.5.1
+Click==7.0
+ecdsa==0.13.2
+Flask==1.0.2
+Flask-Cors==3.0.8
+Flask-Migrate==2.5.3
+Flask-Script==2.0.6
+Flask-SQLAlchemy==2.4.0
+future==0.17.1
+gunicorn==20.0.4
+isort==4.3.18
+itsdangerous==1.1.0
+Jinja2==2.10.1
+jose==1.0.0
+lazy-object-proxy==1.4.0
+Mako==1.1.2
+MarkupSafe==1.1.1
+mccabe==0.6.1
+psycopg2==2.8.5
+psycopg2-binary==2.8.5
+pycryptodome==3.3.1
+pylint==2.3.1
+python-dateutil==2.8.1
+python-editor==1.0.4
+python-jose-cryptodome==1.3.2
+six==1.12.0
+SQLAlchemy==1.3.3
+typed-ast==1.3.5
+Werkzeug==0.15.2
+wrapt==1.11.1

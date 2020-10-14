@@ -5,7 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 from app import create_app
 from models import setup_db, Movie, Actor
+from dotenv import load_dotenv
 
+load_dotenv()
 
 class CapstoneTestCase(unittest.TestCase):
     """This class represents the capstone test case"""
@@ -16,13 +18,16 @@ class CapstoneTestCase(unittest.TestCase):
         self.client = self.app.test_client
         self.database_name = "capstone"
         self.database_path = "postgres://{}/{}".format('localhost:5432', self.database_name)
-        #self.database_path = os.environ['DATABASE_URL']
+        #self.database_path = os.environ.get['DATABASE_URL']
         setup_db(self.app, self.database_path)
 
 
         ASSISTANT_TOKEN = os.environ.get('ASSISTANT_TOKEN') 
         DIRECTOR_TOKEN = os.environ.get('DIRECTOR_TOKEN')
         PRODUCER_TOKEN = os.environ.get('PRODUCER_TOKEN')
+
+
+        print('assistant', ASSISTANT_TOKEN)
 
 
         self.assistant_header = {
@@ -106,27 +111,17 @@ class CapstoneTestCase(unittest.TestCase):
         res = self.client().get('/actors', headers=self.assistant_header)
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 401)
-        self.assertEqual(data["success"], False)
-        self.assertTrue(data['message'], 'unathorized' )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
 
-    def test_actors(self):
-        res = self.client().get('/actors')
-        data = json.loads(res.data)
-        self.assertEqual(res.status_code, 401)
 
     def test_casting_assistant_movies(self):
         res = self.client().get('/movies', headers=self.assistant_header)
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 401)
-        self.assertEqual(data["success"], False)
-        self.assertTrue(data['message'], 'unathorized' )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
 
-    def test_movies(self):
-        res = self.client().get('/movies')
-        data = json.loads(res.data)
-        self.assertEqual(res.status_code, 401)
 
     
     # Tests for castins_director (ADD/DELETE/PATCH)
