@@ -5,9 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 
 from app import create_app
 from models import setup_db, Movie, Actor
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
-load_dotenv()
+#load_dotenv()
 
 class CapstoneTestCase(unittest.TestCase):
     """This class represents the capstone test case"""
@@ -21,13 +21,9 @@ class CapstoneTestCase(unittest.TestCase):
         #self.database_path = os.environ.get['DATABASE_URL']
         setup_db(self.app, self.database_path)
 
-
         ASSISTANT_TOKEN = os.environ.get('ASSISTANT_TOKEN') 
         DIRECTOR_TOKEN = os.environ.get('DIRECTOR_TOKEN')
         PRODUCER_TOKEN = os.environ.get('PRODUCER_TOKEN')
-
-
-        print('assistant', ASSISTANT_TOKEN)
 
 
         self.assistant_header = {
@@ -109,14 +105,6 @@ class CapstoneTestCase(unittest.TestCase):
     # Tests for casting assistant (GET)
     def test_casting_assistant_actor(self):
         res = self.client().get('/actors', headers=self.assistant_header)
-        data = json.loads(res.data)
-
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data["success"], True)
-
-
-    def test_casting_assistant_movies(self):
-        res = self.client().get('/movies', headers=self.assistant_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)

@@ -84,5 +84,4 @@ test the
 or
 `bash setup.sh && python3 test_app.py`
 
-requirements.txt
 
