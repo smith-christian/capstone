@@ -63,6 +63,11 @@ If you need alternate instructions for the download they can be found here. You 
   `export FLASK_APP=app.py` 
   `flask run --reload`
 
+  test the 
+`source setup.sh && python3 test_app.py`
+or
+`bash setup.sh && python3 test_app.py`
+
 ********************* Heroku CLI *************************
 
 To check db on local machine teminal run => `heroku pg:psql`   
@@ -79,9 +84,6 @@ curl --location --request GET 'https://capstone-smith.herokuapp.com/movies' \
 {"movies":[{"id":1,"release_date":"Wed, 04 Sep 2019 00:00:00 GMT","title":"Avengers"},{"id":3,"release_date":"Fri, 28 Sep 2012 00:00:00 GMT","title":"Looper"},{"id":4,"release_date":"Wed, 20 Oct 1999 00:00:00 GMT","title":"One piece"},{"id":2,"release_date":"Sat, 08 Mar 2014 00:00:00 GMT","title":"predestination"}],"success":true}
 
 
-test the 
-`source setup.sh && python3 test_app.py`
-or
-`bash setup.sh && python3 test_app.py`
+
 
 
