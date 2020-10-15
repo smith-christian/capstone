@@ -36,9 +36,9 @@ class CapstoneTestCase(unittest.TestCase):
             "Authorization": "Bearer {}".format(PRODUCER_TOKEN)}
             
 
-        print('assistant', self.assistant_header)
-        print('director', self.director_header)
-        print('producer', self.producer_header)
+        #print('assistant', self.assistant_header)
+        #print('director', self.director_header)
+        #print('producer', self.producer_header)
 
 
 
@@ -70,9 +70,9 @@ class CapstoneTestCase(unittest.TestCase):
         }
 
         self.add_movie = {
-            'id': 7,
             'title': "The Revenant",
-            'release_date': "January 8, 2016"
+            'release_date': "January 8, 2016",
+            'id': 7,
         }
 
         self.update_movie = {
@@ -101,39 +101,225 @@ class CapstoneTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
         self.assertTrue(data["condition"])
+    
+    def test_401_casting_assistant_actor(self):
+        res = self.client().get('/actors')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+    
+    def test_401_casting_assistant_movies(self):
+        res = self.client().get('/movies')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
 
     # Tests for casting assistant (GET)
-    def test_casting_assistant_actor(self):
+    def test_casting_assistant_get_actor(self):
         res = self.client().get('/actors', headers=self.assistant_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data["success"], True)
 
+    '''def test_401_casting_assistant_actor(self):
+        res = self.client().get('/actors', headers=self.assistant_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data['message'], 'unathorized')'''
+
+    def test_casting_assistant_get_movies(self):
+        res = self.client().get('/movies', headers=self.assistant_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+
+    '''def test_401_casting_assistant_movies(self):
+        res = self.client().get('/movies', headers=self.assistant_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data['message'], 'unathorized')'''
 
     
-    # Tests for castins_director (ADD/DELETE/PATCH)
+    # Tests for castins_director (POST/DELETE/PATCH)
 
-'''    def test_post_actor_as_director(self):
-        res = self.client().post('/actors', headers=self.director_header, json=self.actor)
+
+    def test_casting_director_get_actor(self):
+        res = self.client().get('/actors', headers=self.director_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+
+    '''def test_401_casting_director_movies(self):
+        res = self.client().get('/actors', headers=self.adirector_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data['message'], 'unathorized')'''
+
+    def test_post_casting_director_success(self):
+        res = self.client().post('/actors', json=self.add_actor, headers=self.director_header)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
 
-    def test_401_post_actor_as_public(self):
+    def test_director_patch_actors(self):
+        res = self.client().patch('actors/7', json=self.update_actor,
+                                  headers=self.director_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_director_400_patch_actors(self):
+        res = self.client().patch('actors/1', headers=self.director_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 500)
+        self.assertEqual(data['success'], False)
+    
+    def test_post_casting_director(self):
         res = self.client().post('/actors', json=self.add_actor)
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 401)
+
+
+    def test_director_delete_actors(self):
+        res = self.client().delete('actors/1', headers=self.director_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
         self.assertEqual(data['success'], False)
+
+    def test_casting_assistant_get_actor(self):
+        res = self.client().get('/movies', headers=self.director_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+
+    '''def test_401_casting_director_movies(self):
+        res = self.client().get('/movies', headers=self.adirector_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data["success"], False)
         self.assertEqual(data['message'], 'unathorized')'''
 
+    def test_director_400_patch_movies(self):
+        res = self.client().patch('movies/1', headers=self.director_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 500)
+        self.assertEqual(data['success'], False)
+
+    def test_director_patch_movie(self):
+        res = self.client().patch('movies/7', json=self.update_movie,
+                                  headers=self.director_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
 
 
+    # Tests for PRODUCER (POST/DELETE/PATCH)
+
+    def test_producer_get_actor(self):
+        res = self.client().get('/actors', headers=self.producer_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+
+    '''def test_401_producer_movies(self):
+        res = self.client().get('/actors', headers=self.producer_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data['message'], 'unathorized')'''
+
+    def test_post_producer_success(self):
+        res = self.client().post('/actors', json=self.add_actor, headers=self.producer_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_producer_patch_actors(self):
+        res = self.client().patch('actors/7', json=self.update_actor,
+                                  headers=self.producer_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+
+    def test_producer_400_patch_actors(self):
+        res = self.client().patch('actors/1', headers=self.producer_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 500)
+        self.assertEqual(data['success'], False)
+    
+    def test_post_producer(self):
+        res = self.client().post('/actors', json=self.add_actor)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
 
 
+    def test_producer_delete_actors(self):
+        res = self.client().delete('actors/1', headers=self.producer_header)
 
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+
+    def test_producer_get_actor(self):
+        res = self.client().get('/movies', headers=self.producer_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data["success"], True)
+
+    '''def test_401_casting_director_movies(self):
+        res = self.client().get('/movies', headers=self.producer_header)
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(data["success"], False)
+        self.assertEqual(data['message'], 'unathorized')'''
+
+    def test_producer_400_patch_movies(self):
+        res = self.client().patch('movies/1', headers=self.producer_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 500)
+        self.assertEqual(data['success'], False)
+
+    def test_producer_patch_movie(self):
+        res = self.client().patch('movies/7', json=self.update_movie,
+                                  headers=self.producer_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
+
+    def test_404_producer_delete_actors(self):
+        res = self.client().delete('movies/1', headers=self.producer_header)
+
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(data['success'], False)
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
