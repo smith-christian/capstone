@@ -14,8 +14,10 @@ def create_app(test_config=None):
 
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE,OPTIONS')
+        response.headers.add('Access-Control-Allow-Headers',
+                             'Content-Type,Authorization,true')
+        response.headers.add('Access-Control-Allow-Methods',
+                             'GET,PATCH,POST,DELETE,OPTIONS')
         return response
 
     @app.route('/')
@@ -29,41 +31,41 @@ def create_app(test_config=None):
     @requires_auth('get:actors')
     def get_actors(payload):
 
-        try:    
+        try:
             all_actors = Actor.query.order_by(Actor.name).all()
             return_actors = [actors.format() for actors in all_actors]
             return jsonify({
                 'success': True,
                 'actors': return_actors
             }), 200
-        except:
+        except Exception:
             abort(500)
-    
+
     @app.route('/movies')
     @requires_auth('get:movies')
     def get_movies(payload):
 
-        try:    
+        try:
             all_movies = Movie.query.order_by(Movie.title).all()
             return_movie = [movies.format() for movies in all_movies]
             return jsonify({
                 'success': True,
                 'movies': return_movie
             }), 200
-        except:
+        except Exception:
             abort(500)
-    
+
     @app.route('/actors', methods=['POST'])
     @requires_auth('post:actors')
     def post_actor(payload):
-        
+
         body = request.get_json()
         name = body.get('name', None)
         age = body.get('age', None)
         gender = body.get('gender', None)
-        
+
         try:
-            actor = Actor(name = name, age = age, gender = gender)
+            actor = Actor(name=name, age=age, gender=gender)
             actor.insert()
 
             return jsonify({
@@ -71,7 +73,7 @@ def create_app(test_config=None):
                 'actor': actor.format()
             })
             abort(200)
-        except:
+        except Exception:
             abort(422)
 
     @app.route('/actors/<int:actor_id>', methods=['DELETE'])
@@ -83,19 +85,19 @@ def create_app(test_config=None):
             abort(404)
         try:
             actor.delete()
-            
+
             return jsonify({
                 'success': True,
                 'actor_id_delete': actor.id
             })
             abort(200)
-        except:
+        except Exception:
             abort(500)
 
     @app.route('/actors/<int:actor_id>', methods=['PATCH'])
     @requires_auth('patch:actor')
     def patch_actor(payload, actor_id):
-        
+
         body = request.get_json()
         name = body.get('name', None)
         age = body.get('age', None)
@@ -104,7 +106,7 @@ def create_app(test_config=None):
         actor = Actor.query.get(actor_id)
 
         if actor is None:
-            abort(404)        
+            abort(404)
         if name:
             actor.name = name
         if name:
@@ -119,13 +121,13 @@ def create_app(test_config=None):
                 'actor': actor.format()
             })
             abort(200)
-        except:
+        except Exception:
             abort(500)
 
     @app.route('/movies/<int:movie_id>', methods=['PATCH'])
     @requires_auth('patch:movie')
     def patch_movie(payload, movie_id):
-        
+
         body = request.get_json()
         title = body.get('title', None)
         release_date = body.get('release_date', None)
@@ -133,7 +135,7 @@ def create_app(test_config=None):
         movie = Movie.query.get(movie_id)
 
         if movie is None:
-            abort(404)        
+            abort(404)
         if title:
             movie.title = title
         if release_date:
@@ -146,39 +148,38 @@ def create_app(test_config=None):
                 'movie': movie.format()
             })
             abort(200)
-        except:
+        except Exception:
             abort(500)
-    
 
     @app.route('/movies/<int:movie_id>', methods=['DELETE'])
     @requires_auth('delete:movie')
     def delete_movie(payload, movie_id):
-        
+
         movie = Movie.query.get(movie_id)
 
         if movie is None:
-            abort (404)
+            abort(404)
         try:
             movie.delete()
-            
+
             return jsonify({
                 'success': True,
                 'movie_id_delete': movie.id
             })
             abort(200)
-        except:
+        except Exception:
             abort(500)
 
     @app.route('/movies', methods=['POST'])
     @requires_auth('post:movies')
     def post_movie(payload):
-        
+
         body = request.get_json()
         title = body.get('title', None)
         release_date = body.get('release_date', None)
-        
+
         try:
-            movie = Movie(title = title, release_date = release_date)
+            movie = Movie(title=title, release_date=release_date)
             movie.insert()
 
             return jsonify({
@@ -186,7 +187,7 @@ def create_app(test_config=None):
                 'movie': movie.format()
             })
             abort(200)
-        except:
+        except Exception:
             abort(422)
 
     @app.errorhandler(400)
@@ -199,7 +200,7 @@ def create_app(test_config=None):
 
     @app.errorhandler(500)
     def server_error(error):
-            return jsonify({
+        return jsonify({
             "success": False,
             "error": 500,
             "message": "internal server error"
@@ -208,7 +209,7 @@ def create_app(test_config=None):
     @app.errorhandler(422)
     def unprocessable(error):
         return jsonify({
-            "success": False, 
+            "success": False,
             "error": 422,
             "message": "unprocessable"
         }), 422
@@ -229,7 +230,6 @@ def create_app(test_config=None):
             "message": "resource not found"
         }), 404
 
-    
     @app.errorhandler(AuthError)
     def handle_auth_error(ex):
         response = jsonify(ex.error)
@@ -237,6 +237,7 @@ def create_app(test_config=None):
         return response
 
     return app
+
 
 app = create_app()
 
