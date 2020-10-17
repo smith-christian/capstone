@@ -1,51 +1,70 @@
+#### Casting Agency:
+Thesis:
+  This project will allow users to view/delete/add/update actor and movie data using their specific roles. This project contains main part of third party services like Auth0 for authentication, using postgres for database and heroku for deployment 
+
+#### Virtual Enviornment
+
+Using virtual environment for Python project. This keeps your dependencies for each project separate and organaized. Instructions for setting up a virual enviornment for your platform can be found in the [python docs](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/)
+
+#### pip Dependencies
+
+* Installing Dependencies
+  For a Python application, Heroku looks for a requirements.txt file that needs to include all of your dependencies.Once you have your virtual environment setup and running, install dependencies : `pip freeze > requirements.txt`
+
+* Key Dependencies
+  - [Flask](http://flask.pocoo.org/)  is a lightweight backend microservices framework. Flask is required to handle requests and responses.
+
+  - [SQLAlchemy](https://www.sqlalchemy.org/) is the Python SQL toolkit and ORM, let's handle the lightweight sqlite database. You'll primarily work in app.py and can reference models.py. 
+
+  - [Flask-CORS](https://flask-cors.readthedocs.io/en/latest/#) is the extension, let's handle cross origin requests from our frontend server. 
+
+
+## Running the server
+
+  With in the directory first ensure you are working using your created virtual environment.
+  To run the server, execute:
+    `export FLASK_APP=app.py` 
+    `flask run --reload`
+
+#### Auth0 services 
+
+  Create an account in [Auth0] https://auth0.com/ and create an aplication and set api. Later assigne role to each users which they have permission gives to acces limited data.
+
 # Getting Started on Heroku
 
-Before we can do anything with Heroku, we need to do two things. First, we need to create an account with Heroku here and then we need to download the Heroku CLI (Command Line Interface) in order to run commands from the terminal that enable us to create a Heroku application and manage it.
+Download Heroku:
+  First create an account with Heroku here and then we need to download the Heroku CLI (Command Line Interface) in order to run commands from the terminal that enable us to create a Heroku application and manage it.
 
-After you create your account, install Heroku with Homebrew by running:
-
-`brew tap heroku/brew && brew install heroku`
-
-If you need alternate instructions for the download they can be found here. You can verify the download by typing 'which heroku'.
+  After you create your account, install Heroku with Homebrew by running: `brew tap heroku/brew && brew install heroku`
+  To see location of file use: `which heroku`
 
 # Deployment Configuration:
- * Installing Dependencies
-    Deploying an application to Heroku is as simple as pushing that repository to Heroku, just like Github. Heroku does a lot of things behind the scenes for us when we push a repository - including installing dependencies. For a Python application, Heroku looks for a requirements.txt file that needs to include all of your dependencies.
-
-    `pip freeze > requirements.txt`
 
  * Environment Configuration
-    If you're following along in the project, use `touch setup.sh` and set up all of your environment variables in that file.
+    Use `touch setup.sh` and set up all of the environment variables in that file.
 
  * Gunicorn
-    Gunicorn is a pure-Python HTTP server for WSGI applications. We'll be deploying our applications using the Gunicorn webserver.
+    Gunicorn is a pure-Python HTTP server for WSGI applications. We'll be deploying our applications using the Gunicorn webserver let's Run:  `pip install gunicorn`
 
-    First, we need to install gunicorn using `pip install gunicorn`. Next `touch Procfile` to create the file.
-
-    Procfile is exceedingly simple. It only needs to include one line to instruct Heroku correctly for us: `web: gunicorn app:app`. Just make sure your app is housed in app.py as it is in the sample project. Go ahead and make those updates to the sample project if you're following along.
+    Procfile is exceedingly simple. It only needs to include one line to instruct Heroku correctly add `web: gunicorn app:app` line to Procfile file.
 
 # Database Manage & Migrations on Heroku
-    In the data modeling course, you learned how to use migrations to manage your database schema and changes that you make to it. Heroku can run all your migrations to the database you have hosted on the platform, but in order to do so, your application needs to include a manage.py file.
 
-    We'll need three new packages in the file. Run the following commands to install them:
+  The following commands to install Migrations packages to manage database schema:
+    1. `pip install flask_script`
+    2. `pip install flask_migrate`
+    3. `pip install psycopg2-binary`
 
-   1. `pip install flask_script`
-   2. `pip install flask_migrate`
-   3. `pip install psycopg2-binary`
+    Run our local migrations using our manage.py file, to mirror how Heroku will run behind the scenes for us when we deploy our application:
+      python3 manage.py db init
+      python3 manage.py db migrate
+      python3 manage.py db upgrade
 
-    Now we can run our local migrations using our manage.py file, to mirror how Heroku will run behind the scenes for us when we deploy our application:
-
-    python3 manage.py db init
-    python3 manage.py db migrate
-    python3 manage.py db upgrade
-
-    Those last commands are the essential process that Heroku will run to ensure your database is architected properly. We, however, won't need to run them again unless we're testing the app locally.
-    
 # Deploying to Heroku
  * Create Heroku app
-   in order to create the Heroku app run `heroku create name_of_your_app`. The output will include a git url for your Heroku application. Copy this as, we'll use it in a moment.
+   in order to create the Heroku app run `heroku create name_of_your_app`. The output will include a git url for your Heroku application.
    
- * Add git remote for Heroku to local repository
+ * Add git remote for Heroku repository
    Using the git url obtained from the last step, in terminal run: `git remote add heroku heroku_git_url`.
 
  * Add postgresql add on for our database
@@ -59,21 +78,181 @@ If you need alternate instructions for the download they can be found here. You 
  * Run migrations
    Once your app is deployed, run migrations by running: `heroku run python3 manage.py db upgrade --app name_of_your_application`
 
-# to run app locally 
-  `export FLASK_APP=app.py` 
-  `flask run --reload`
 
-  test the 
-`source setup.sh && python3 test_app.py`
-or
-`bash setup.sh && python3 test_app.py`
+ # To test the error handling for aplicationsimply run commands below locally on the machine 
+  `source setup.sh && python3 test_app.py`
+  or
+  `bash setup.sh && python3 test_app.py`
 
-********************* Heroku CLI *************************
+
+
+
+# Testing API in Postman 
+
+After building the full aplication the output would look something similar show below:
+
+**************************   GET  **************************
+
+https://capstone-smith.herokuapp.com/actors
+{
+    "actors": [
+        {
+            "age": 19,
+            "gender": "female",
+            "id": 3,
+            "name": "Nency"
+        },
+        {
+            "age": 25,
+            "gender": "male",
+            "id": 1,
+            "name": "sam smith"
+        },
+        {
+            "age": 35,
+            "gender": "male",
+            "id": 2,
+            "name": "smith john"
+        },
+        {
+            "age": 30,
+            "gender": "female",
+            "id": 4,
+            "name": "Zora"
+        }
+    ],
+    "success": true
+}
+
+https://capstone-smith.herokuapp.com/movies
+{
+    "movies": [
+        {
+            "id": 1,
+            "release_date": "Wed, 04 Sep 2019 00:00:00 GMT",
+            "title": "Avengers"
+        },
+        {
+            "id": 3,
+            "release_date": "Fri, 28 Sep 2012 00:00:00 GMT",
+            "title": "Looper"
+        },
+        {
+            "id": 4,
+            "release_date": "Wed, 20 Oct 1999 00:00:00 GMT",
+            "title": "One piece"
+        },
+        {
+            "id": 2,
+            "release_date": "Sat, 08 Mar 2014 00:00:00 GMT",
+            "title": "predestination"
+        }
+    ],
+    "success": true
+}
+
+
+
+**************************   DELETE  **************************
+
+https://capstone-smith.herokuapp.com/actors/1
+
+{
+    "actors": [
+        {
+            "age": 19,
+            "gender": "female",
+            "id": 3,
+            "name": "Nency"
+        },
+        {
+            "age": 35,
+            "gender": "male",
+            "id": 2,
+            "name": "smith john"
+        },
+        {
+            "age": 30,
+            "gender": "female",
+            "id": 4,
+            "name": "Zora"
+        }
+    ],
+    "success": true
+}
+
+https://capstone-smith.herokuapp.com/movies/1
+
+{
+    "movies": [
+        {
+            "id": 2,
+            "release_date": "Tue, 10 Mar 1998 00:00:00 GMT",
+            "title": "JOJO's Adventure"
+        },
+        {
+            "id": 3,
+            "release_date": "Fri, 28 Sep 2012 00:00:00 GMT",
+            "title": "Looper"
+        },
+        {
+            "id": 4,
+            "release_date": "Wed, 20 Oct 1999 00:00:00 GMT",
+            "title": "One piece"
+        }
+    ],
+    "success": true
+}
+
+
+**************************   POST  **************************
+
+https://capstone-smith.herokuapp.com/actors
+
+{
+    "actor": {
+        "age": 41,
+        "gender": "male",
+        "id": 5,
+        "name": "Jerry"
+    },
+    "success": true
+}
+
+https://capstone-smith.herokuapp.com/movies
+
+{
+    "movie": {
+        "id": 1,
+        "release_date": "Fri, 10 Jan 2020 00:00:00 GMT",
+        "title": "Re:Zero"
+    },
+    "success": true
+}
+
+**************************   PATCH  **************************
+
+https://capstone-smith.herokuapp.com/actors/5
+{
+    "age": 35,
+    "gender": "male",
+    "id": 5,
+    "name": "Albetino"
+}
+
+https://capstone-smith.herokuapp.com/movies/2
+{
+    "id": 2,
+    "release_date": "Sun, 10 Mar 1998 00:00:00 GMT",
+    "title": "JOJO's Adventure"
+}
+        
+
+############################################################################################################################
+
+######## Side Notes
 
 To check db on local machine teminal run => `heroku pg:psql`   
-
-
-##################### side activity ############################
 
 curl example link: https://reqbin.com/req/c-dwjszac0/curl-post-json-example
 
@@ -83,6 +262,7 @@ curl --location --request GET 'https://capstone-smith.herokuapp.com/movies' \
 
 {"movies":[{"id":1,"release_date":"Wed, 04 Sep 2019 00:00:00 GMT","title":"Avengers"},{"id":3,"release_date":"Fri, 28 Sep 2012 00:00:00 GMT","title":"Looper"},{"id":4,"release_date":"Wed, 20 Oct 1999 00:00:00 GMT","title":"One piece"},{"id":2,"release_date":"Sat, 08 Mar 2014 00:00:00 GMT","title":"predestination"}],"success":true}
 
+############################################################################################################################
 
 
 
